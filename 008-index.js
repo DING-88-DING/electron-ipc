@@ -1,10 +1,12 @@
-const { app, BrowserWindow, ipcMain,globalShortcut } = require("electron/main");
+const { app, BrowserWindow, ipcMain,globalShortcut,Notification,Tray,Menu } = require("electron/main");
 const path = require("node:path");
 const fs = require("node:fs");
 const https = require("node:https");
 
+let win = null
+
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -45,6 +47,32 @@ fs.writeFileSync(
   "# Second file to test drag and drop"
 );
 
+// 创建通知的函数
+function createNotification(msg) {
+  const notification = new Notification({
+    title: '通知标题',
+    body: msg
+  });
+
+  // 显示通知
+  notification.show();
+}
+
+// 创建托盘图标的函数
+function createTray() {
+  const tray = new Tray(path.join(__dirname, 'logo.ico'));  // 托盘图标路径
+  const contextMenu = Menu.buildFromTemplate([
+    { label: '显示', click: () => win.show() },  // 显示窗口
+    { label: '隐藏', click: () => win.hide() },  // 隐藏窗口
+    { type: 'separator' },
+    { label: '退出', click: () => app.quit() }  // 退出应用
+  ]);
+
+  // 设置托盘图标的提示文本和右键菜单
+  tray.setToolTip('这是托盘图标');
+  tray.setContextMenu(contextMenu);
+}
+
 https.get("https://img.icons8.com/ios/452/drag-and-drop.png", (response) => {
   response.pipe(icon);
 });
@@ -53,10 +81,13 @@ app.whenReady().then(
   () => {
     // 快捷键
     globalShortcut.register('Alt+CommandOrControl+I', () => {
-      console.log('Electron loves global shortcuts!')
+      createNotification('Electron loves global shortcuts!')
     })
+
+    createWindow()
+    createTray()
   }
-).then(createWindow);
+)
 
 ipcMain.on("ondragstart", (event, filePath) => {
   console.log(filePath);
