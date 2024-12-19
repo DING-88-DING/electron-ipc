@@ -1,0 +1,21 @@
+{
+  "name": "electron-2",
+  "version": "1.0.0",
+  "description": "electron-2",
+  "main": "007-index.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "electron-2"
+  ],
+  "author": "QUAN",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^33.2.1"
+  },
+  "dependencies": {
+    "sharp": "^0.33.5"
+  }
+}

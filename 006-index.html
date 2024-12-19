@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Menu Counter</title>
+  </head>
+  <body>
+    <h1>Window One</h1>
+    <button id="btn1">窗口 postMessage 给主进程发送消息端口 port1</button>
+    <button id="btn2">窗口通过 port2 给主进程发送消息</button>
+    <script src="./006-renderer.js"></script>
+  </body>
+</html>
